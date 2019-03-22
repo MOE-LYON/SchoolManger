@@ -16,10 +16,10 @@ student teacher admin
 + remove TermCourse
 + get AllCourse
 + get Course Mark
-+ set Course/Allcourses Mark
+
 
 ### teacher
-+
++ set Course Mark
 +
 +
 +
