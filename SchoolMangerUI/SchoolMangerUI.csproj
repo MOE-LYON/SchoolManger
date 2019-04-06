@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminUI.cs" />
+    <Compile Include="LoginUI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StudentUI.cs" />
+    <Compile Include="TeacherUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

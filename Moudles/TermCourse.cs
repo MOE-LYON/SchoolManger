@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
+    [Serializable]
     public class TermCourse
     {
         private string id;
@@ -30,11 +31,25 @@ namespace Models
         {
             get { return courseid; }
         }
+        public void addStu(string sid)
+        {
+            students.Add(sid);
+        }
+
+        public bool removeStu(string sid)
+        {
+            return students.Remove(sid);
+        }
+        public string[] getAllStu()
+        {
+            return students.ToArray();
+        }
         public TermCourse(string courseid,string teacherid)
         {
             this.teacherid=teacherid;
             this.courseid=courseid;
-            this.id=DateTime.Now.Year+courseid+teacherid+(new Random()).Next(20).ToString();
+            this.id=courseid+ teacherid + DateTime.Now.Year + (new Random()).Next(20).ToString();
+            this.students = new List<string>();
         }
     }
 }

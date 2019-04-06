@@ -7,5 +7,8 @@ namespace SchoolMangerDAL
 	/// TeacherDAL 的摘要说明。
 	/// </summary>
 	[Serializable]
-	public class TeacherDAL:BaseDAL	{}
+	public class TeacherDAL:BaseDAL	{
+        public int id=1;
+    }
+    
 }

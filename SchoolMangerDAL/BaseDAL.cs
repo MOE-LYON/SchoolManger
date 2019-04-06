@@ -21,7 +21,7 @@ namespace SchoolMangerDAL
 		/// </summary>
 		/// <param name="User"></param>
 		/// <returns></returns>
-		public bool Add(User User)
+		public  bool Add(User User)
 		{
 			for(int i=0;i<Users.Count; ++i)
 			{

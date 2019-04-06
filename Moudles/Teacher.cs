@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Models
 {
+    [Serializable]
     public class Teacher:User
     {
-        private static int cuurid;
+        public static int cuurid;
         public Teacher(string name, string password, string id=null):base(name,password)
         {
             if (id == null)
             {
-
+                this.id = GetNewID();
             }
             else this.id = id;
             this.role = Role.teacher;
@@ -21,7 +22,7 @@ namespace Models
 
         public override string GetNewID()
         {
-            return string.Format("T{0}{1:D3}",DateTime.Now.Year, cuurid);
+            return string.Format("T{0}{1:D3}",DateTime.Now.Year, cuurid++);
         }
     }
 }

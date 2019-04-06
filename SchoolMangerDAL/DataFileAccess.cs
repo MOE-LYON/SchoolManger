@@ -205,7 +205,7 @@ namespace SchoolMangerDAL
 				{
 					BinaryFormatter bf = new BinaryFormatter();
 					admins = new AdminDAL();
-					Admin admin = new Admin("A001","管理员","123");
+					Admin admin = new Admin("管理员","123","A001");
 					admins.Add(admin);
 					bf.Serialize(fs,admins);
 				}				

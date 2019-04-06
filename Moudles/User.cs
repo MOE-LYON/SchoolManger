@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Models
 {
+    [Serializable]
     public enum Role
     {
         student=1,
         teacher=2,
         admin=3
     }
+    [Serializable]
     public abstract class User
     {
         protected string id;
@@ -37,9 +39,11 @@ namespace Models
         {
             this.name = name;
             this.password = password;
-            id = GetNewID();
         }
-
+        public bool CheckPasswd(string passwd)
+        {
+            return this.password == passwd;
+        }
         public Role getRole()
         {
             return role;
