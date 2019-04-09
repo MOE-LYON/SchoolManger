@@ -12,7 +12,7 @@ namespace Models
         private string course_ID;
         private string course_name;
         private double course_point;
-
+        private string cpno;
         public double Point
         {
             get { return course_point; }
@@ -28,11 +28,15 @@ namespace Models
         {
             get { return course_name; }
         }
-        public Course(string id, string name, double point)
+
+        public string Cpno { get { return cpno; } set { cpno = value; } }
+
+        public Course(string id, string name, double point,string cpno=null)
         {
             this.course_ID = id;
             this.course_name = name;
             this.course_point = point;
+            this.cpno = cpno;
         }
     }
 }

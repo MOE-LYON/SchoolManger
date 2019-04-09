@@ -18,6 +18,7 @@ namespace SchoolMangerUI
             Console.WriteLine("║             ====================       ║");
             Console.WriteLine("║     1——教师管理         2——学生管理      ║");
             Console.WriteLine("║     3——课程管理         4——学期课程管理  ║");
+            Console.WriteLine("║              5--重置用户密码            ║");
             Console.WriteLine("║     0——退出             help——帮助      ║");
             Console.WriteLine("╚════════════════════════════════════════╝");
 
@@ -65,22 +66,53 @@ namespace SchoolMangerUI
         }
         public static void show()
         {
-            while(true)
+            while (true)
             {
                 ShowMenu();
-                Console.Write("请选择你要进行的操作(0-4):");
-                string ans=Console.ReadLine().Trim();
-                switch(ans.ToLower())
+                Console.Write("请选择你要进行的操作(0-5):");
+                string ans = Console.ReadLine().Trim();
+                switch (ans.ToLower())
                 {
                     case "0": BaseBLL.saveAll(); return;
                     case "1": TeacherAdmin(); break;
                     case "2": StudentAdmin(); break;
                     case "3": CourseAmdin(); break;
                     case "4": TermCourseAdmin(); break;
+                    case "5": resetPasswd(); break;
                     case "help": Help(); break;
                     default: Console.WriteLine("*******无效输入 请仔细检查"); break;
                 }
             }
+        }
+        private static void resetPasswd()
+        {
+            Console.WriteLine("\n******* 重置用户密码 *********");
+            bool ans;
+            do
+            {
+                ans = false;
+                string id = string.Empty;
+                while (string.IsNullOrEmpty(id))
+                {
+                    Console.Write("请输入要重置用户的ID");
+                    id = Console.ReadLine().Trim().ToUpper();
+                }
+                User ts = AdminBLL.GeUser(id);
+                if (ts == null)
+                {
+                    Console.WriteLine("用户不存在");
+                }
+                else
+                {
+                    string pwd = string.Empty;
+                    Console.WriteLine("请输入新密码 否则密码默认为123");
+                    pwd= Console.ReadLine().Trim();
+                    AdminBLL.SetPasswd(ts,pwd);
+                    
+                }
+                Console.WriteLine("是否继续？(y/n)");
+                if (Console.ReadLine().Trim().ToLower() == "y") ans = true;
+            } while (ans);
         }
 
         private static void TermCourseAdmin()
@@ -227,10 +259,10 @@ namespace SchoolMangerUI
             else
             {
                 Console.WriteLine();
-                Console.WriteLine("\t课程ID\t课程名称");
+                Console.WriteLine("\t课程ID\t课程名称\t先修课");
                 foreach (Course course in res)
                 {
-                    Console.WriteLine("\t{0}\t{1}", course.CourseID, course.CourseName);
+                    Console.WriteLine("\t{0}\t{1}\t\t{2}", course.CourseID, course.CourseName,course.Cpno);
                 }
                 Console.WriteLine("\n\t共找到{0}个查询结果", res.Length);
             }
@@ -297,7 +329,10 @@ namespace SchoolMangerUI
                 Console.Write("请输入新课程的学分数:");
                 course_point = Console.ReadLine().Trim();
             }
-            if (AdminBLL.addCourse(course_id,course_name,course_point))
+            string cpno = string.Empty;
+            Console.WriteLine("请输入新课程的先修课 若无直接按回车");
+            cpno = Console.ReadLine().Trim().ToUpper();
+            if (AdminBLL.addCourse(course_id,course_name,course_point,cpno))
             {
                 Console.WriteLine(">>>>成功添加新课程记录");
 
@@ -432,7 +467,8 @@ namespace SchoolMangerUI
             Console.Write("请输入要查询的学生ID<否则显示所有学生信息:");
             string ans = Console.ReadLine().Trim().ToUpper();
             User[] users = AdminBLL.lookupstudens(ans);
-            if (users[0] == null)
+            
+            if (users.Length == 0)
             {
                 Console.WriteLine("指定的学生不存在");
             }

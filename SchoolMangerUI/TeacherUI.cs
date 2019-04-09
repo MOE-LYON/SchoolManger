@@ -17,7 +17,7 @@ namespace SchoolMangerUI
 ║                 教师操作菜单                         ║
 ║             ====================                     ║
 ║     1——课程成绩登记       2——所授课程查询        ║
-║     3——个人信息                                    ║
+║     3——个人信息           4--修改密码           ║
 ║     0——退出               help——显示本菜单       ║
 ╚═══════════════════════════╝");
         }
@@ -26,7 +26,7 @@ namespace SchoolMangerUI
             while (true)
             {
                 ShowMenu();
-                Console.Write("请选择你要进行的操作(0-3):");
+                Console.Write("请选择你要进行的操作(0-4):");
                 string ans = Console.ReadLine().Trim();
                 switch (ans.ToLower())
                 {
@@ -34,10 +34,32 @@ namespace SchoolMangerUI
                     case "1": updateMark(); break;
                     case "2": findAllCourse(); break;
                     case "3": ShowMe(); break;
+                    case "4":changePasswd(); break;
                     case "help": ShowMenu(); break;
                     default: Console.WriteLine("*******无效输入 请仔细检查"); break;
                 }
             }
+        }
+
+        private static void changePasswd()
+        {
+            Console.WriteLine("\n******* 重置用户密码 *********\n");
+            Console.Write("请输入旧密码");
+            string old = Console.ReadLine().Trim();
+            Console.Write("请输入新密码");
+            string newpw = Console.ReadLine().Trim();
+            Console.Write("请再次输入新密码");
+            string compw = Console.ReadLine().Trim();
+            string err;
+            if (BaseBLL.ChangePasswd(old, newpw, compw, out err))
+            {
+                Console.WriteLine(">>>>密码修改成功");
+            }
+            else
+            {
+                Console.WriteLine(">>>>修改失败 错误信息 {0}", err);
+            }
+            Console.WriteLine("********************");
         }
 
         private static void findAllCourse()

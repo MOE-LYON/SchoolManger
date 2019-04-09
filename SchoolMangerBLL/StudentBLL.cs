@@ -23,11 +23,37 @@ namespace SchoolMangerBLL
                 err = " 已经选修了该课程 --";
                 return false;
             }
+            else if (!CheekCp(tcourse_id))
+            {
+                err = "未选修指定先修课 导致无法选课";
+                return false;
+            }
             stu.AddTermCourse(tcourse_id);
             termCourses.RetrieveTermCourse(tcourse_id).addStu(User.ID);
             return true;
            
         }
+
+        private static bool CheekCp(string tid)
+        {
+            string cid = termCourses.RetrieveTermCourse(tid).CourseID;
+            string pno = courses.RetrieveCourse(cid).Cpno;
+            if (pno == null) return true;
+            Student stu = (Student)user;
+            foreach (var teamcourse in stu.GetAllTermCourses())
+            {
+                try
+                {
+                    if (pno == termCourses.RetrieveTermCourse(teamcourse).CourseID)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception) { }
+            }
+            return false;
+        }
+
         public static bool HasChoosed(string tid)
         {
             Student stu = (Student)user;

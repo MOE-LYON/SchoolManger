@@ -71,9 +71,10 @@ namespace SchoolMangerBLL
             return userlist.ToArray();
         }
 
-        public static bool addCourse(string course_id, string course_name, string course_point)
+        public static bool addCourse(string course_id, string course_name, string course_point, string cpno)
         {
-            Course newcourse = new Course(course_id, course_name, double.Parse(course_point));
+            if (courses.RetrieveCourse(cpno) == null) cpno = null;
+            Course newcourse = new Course(course_id, course_name, double.Parse(course_point),cpno);
             if (courses.AddNewCourse(newcourse))
             {
                 return true;
@@ -141,9 +142,31 @@ namespace SchoolMangerBLL
             return arrayLists;
         }
 
+        public static User GeUser(string id)
+        {
+            User t=null;
+            t = teachers.Retrieve(id);
+            if (t != null) return t;
+            t = students.Retrieve(id);
+            if (t != null) return t;
+            t = admins.Retrieve(id);
+            return t;
+            
+        }
+
         public static bool delTermCourse(string id)
         {
             return termCourses.RemoveTermCourse(id);
+        }
+
+        public static void SetPasswd(User ts, string pwd)
+        {
+            if (string.IsNullOrEmpty(pwd))
+            {
+                ts.Password = "123";
+                return;
+            }
+            ts.Password = pwd;
         }
     }
 }

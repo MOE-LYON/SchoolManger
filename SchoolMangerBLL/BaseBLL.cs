@@ -42,14 +42,21 @@ namespace SchoolMangerBLL
 		{
 			return termCourses.RetrieveTermCourse(termCourseId);
 		}
-        public static bool ChangePasswd(string old,string newpw)
+        public static bool ChangePasswd(string old,string newpw, string compw, out string err)
         {
-            if (user.CheckPasswd(old))
+            err = string.Empty;
+            if (!user.CheckPasswd(old))
             {
-                user.Password = newpw;
-                return true;
+                err = "原始密码错误";
+                return false;
             }
-            else return false;
+            if (newpw != compw)
+            {
+                err = "两次输入的密码不一致";
+                return false;
+            }
+            user.Password = newpw;
+            return true;
         }
         public static void saveAll()
         {
